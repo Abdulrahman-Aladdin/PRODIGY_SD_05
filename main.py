@@ -6,6 +6,17 @@ import json
 import xlsxwriter
 
 
+'''
+I used this code on different stages
+first -> used `get_data` method to get data from the site, it was not easy since I had to search for the request that
+fetches the data I want, and find the required headers for it. then I stored the response data in a pickle file using
+`write_data` method.
+
+second -> used `load_data` that reads the saved data, and then I processed it to extract information I want, then save
+it to an excel sheet.
+'''
+
+
 def write_data(data):
     with open('data.pickle', 'wb') as file:
         pickle.dump(data, file)
@@ -17,6 +28,8 @@ def load_data():
 
 
 def get_data(src_link):
+
+    # You must replace `SECRET DATA` with the appropriate data on your machine
     headers = {
         'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
         'Accept-Encoding': 'gzip, deflate, br',
@@ -52,6 +65,10 @@ def write_data_to_excel(headers, data, file_path, file_name):
 
 link = ('https://www.ubuy.com.eg/en/ubcommon/mongo/search/products?ubuy=es1&docType=offRHF&q=&node_id=13896603011&'
         'page=1&brand=&ufulfilled=&price_range=&sort_by=&s_id=11&lang=&dc=&search_type=category&skus=&store=us')
+
+# Use the next two lines to fetch the data from the web-site
+# soup = get_data(link)
+# write_data(soup)
 
 soup = load_data()
 wanted_text = soup.find_all('script')[1].text
